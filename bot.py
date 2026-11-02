@@ -29,16 +29,10 @@ CHANNEL_FILE = os.path.join(DATA, "channel.json")
 SETTINGS_FILE = os.path.join(DATA, "settings.json")
 
 WELCOME = (
-    "👋 Привет!
-
-"
-    "Это бот-предложка канала «Типичный Норильск».
-
-"
+    "👋 Привет!\n\n"
+    "Это бот-предложка канала «Типичный Норильск».\n\n"
     "Просто пришли сюда свой пост — текст, фото, видео или альбом — "
-    "и он попадёт на рассмотрение админам.
-
-"
+    "и он попадёт на рассмотрение админам.\n\n"
     "✅ Если пост одобрят, он появится в канале."
 )
 
@@ -177,9 +171,7 @@ def create_post(msgs):
             post["from_name"],
             " (@%s)" % post["username"] if post["username"] else "",
         )
-    header = "📌 Новый пост #%s
-%s
-➖➖➖➖➖➖➖➖➖" % (pid, who)
+    header = "📌 Новый пост #%s\n%s\n➖➖➖➖➖➖➖➖➖" % (pid, who)
 
     for admin_id in ADMINS:
         try:
@@ -213,8 +205,7 @@ def create_post(msgs):
             tg(
                 "sendMessage",
                 chat_id=post["from_id"],
-                text="✅ Пост отправлен на рассмотрение.
-Если его одобрят — он появится в канале.",
+                text="✅ Пост отправлен на рассмотрение.\nЕсли его одобрят — он появится в канале.",
             )
         except Exception:
             pass
@@ -276,10 +267,7 @@ def panel_kb():
 def show_panel(chat_id, edit_message_id=None):
     s = get_settings()
     ch = get_channel()
-    text = "🛠 Панель админа
-
-Канал: %s
-Анонимность авторов: %s" % (
+    text = "🛠 Панель админа\n\nКанал: %s\nАнонимность авторов: %s" % (
         ch or "не задан",
         "включена" if s.get("anon", True) else "выключена",
     )
@@ -315,15 +303,10 @@ def stats_text():
         elif st == "rejected":
             rej += 1
     return (
-        "📊 Статистика
-
-"
-        "Всего постов: %d
-"
-        "⏳ На рассмотрении: %d
-"
-        "✅ Опубликовано: %d
-"
+        "📊 Статистика\n\n"
+        "Всего постов: %d\n"
+        "⏳ На рассмотрении: %d\n"
+        "✅ Опубликовано: %d\n"
         "❌ Отклонено: %d" % (total, new, pub, rej)
     )
 
@@ -370,8 +353,7 @@ def handle_message(msg):
             tg(
                 "sendMessage",
                 chat_id=msg["chat"]["id"],
-                text="❌ Не получилось: %s
-Проверь, что бот добавлен в админы канала."
+                text="❌ Не получилось: %s\nПроверь, что бот добавлен в админы канала."
                 % res.get("description", ""),
             )
         return
@@ -382,9 +364,7 @@ def handle_message(msg):
         cmd = parts[0].split("@")[0].lower()
 
         if cmd == "/start":
-            extra = "
-
-🛠 /panel — панель админа" if uid in ADMINS else ""
+            extra = "\n\n🛠 /panel — панель админа" if uid in ADMINS else ""
             tg("sendMessage", chat_id=msg["chat"]["id"], text=WELCOME + extra)
             return
 
@@ -392,8 +372,7 @@ def handle_message(msg):
             tg(
                 "sendMessage",
                 chat_id=msg["chat"]["id"],
-                text="Твой ID: %d
-ID этого чата: %d"
+                text="Твой ID: %d\nID этого чата: %d"
                 % (uid, msg["chat"]["id"]),
             )
             return
@@ -416,10 +395,8 @@ ID этого чата: %d"
             tg(
                 "sendMessage",
                 chat_id=msg["chat"]["id"],
-                text="📢 Пришли @username канала или перешли сюда любое сообщение из канала.
-"
-                "Бот должен быть добавлен в админы канала с правом публикации.
-"
+                text="📢 Пришли @username канала или перешли сюда любое сообщение из канала.\n"
+                "Бот должен быть добавлен в админы канала с правом публикации.\n"
                 "/cancel — отмена.",
             )
             return
@@ -483,10 +460,8 @@ def handle_callback(cb):
         tg(
             "sendMessage",
             chat_id=msg["chat"]["id"],
-            text="📢 Пришли @username канала или перешли сюда любое сообщение из канала.
-"
-            "Бот должен быть админом канала.
-/cancel — отмена.",
+            text="📢 Пришли @username канала или перешли сюда любое сообщение из канала.\n"
+            "Бот должен быть админом канала.\n/cancel — отмена.",
         )
         return
 
