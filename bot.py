@@ -18,7 +18,7 @@ import urllib.request
 
 # ================== НАСТРОЙКИ ==================
 TOKEN = "9108881760:AAE_PoQGe5iTPYjx1usqe57wk52K8g26Hgw"
-ADMINS = [1979046241, 8079727075]
+ADMINS = [1979046241, 8079727075, 1052146523]
 # ===============================================
 
 API = "https://api.telegram.org/bot" + TOKEN
